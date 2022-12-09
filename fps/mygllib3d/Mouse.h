@@ -1,7 +1,6 @@
 #ifndef MOUSE_H
 #define MOUSE_H
 
-
 namespace mygllib
 {
     class Mouse
@@ -12,14 +11,15 @@ namespace mygllib
             static void passive_motion(int x, int y);
             static void entry(int state);
         
-            int & x()       { return x_; }
-            int & y()       { return y_; }
+            static int x()       { return x_; }
+            static int y()       { return y_; }
 
-            bool & mouse_down()         { return mouse_down_; }
+            static bool mouse_down()         { return mouse_down_; }
 
         private:
-            int x_, y_;
-            bool mouse_down_;
+            static int x_, y_;
+            static bool mouse_down_;
+            static float sensitivity;
     };
 }
 

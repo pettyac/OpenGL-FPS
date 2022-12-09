@@ -38,20 +38,21 @@ namespace mygllib
 			ORTHOGONAL, PERSPECTIVE
 		};
 
-		Camera(float eyex=0, float eyey=0, float eyez=3,
+		Camera(float eyex=0, float eyey=0.5, float eyez=3,
 			float refx=0, float refy=0, float refz=0,
 			float upx=0, float upy=1, float upz=0,
 			Projection type=PERSPECTIVE,
-			float fovy=90, float aspect=1, float zNear=0.1, float zFar=1000)
+			float fovy=90, float aspect=1, float zNear=0.1, float zFar=1000,
+			float yaw = -90.0f, float pitch = 0, float speed = 2.5f)
 			: cameraPos(glm::vec3(eyex, eyey, eyez)), 
 			  cameraTarget(glm::vec3(refx, refy, refz)),
 			  cameraUp(glm::vec3(upx, upy, upz)), type_(type),
-			  fovy_(fovy), aspect_(aspect), zNear_(zNear), zFar_(zFar)
+			  fovy_(fovy), aspect_(aspect), zNear_(zNear), zFar_(zFar),
+			  speed_(speed), yaw_(yaw), pitch_(pitch)
 		{
 			cameraDirection = glm::normalize(cameraPos - cameraTarget);
 			cameraRight = glm::normalize(glm::cross(cameraUp, cameraDirection));
 			cameraFront = glm::vec3(0, 0, -1);	
-
 		}
 
 		float & eyex()				{ return eyex_; }
@@ -77,6 +78,11 @@ namespace mygllib
 		float & upz()				{ return upz_; }
 		float	upz() const			{ return upz_; }
 		void    up(float x, float y, float z) { upx_ = x; upy_ = y; upz_ = z; }
+		
+		float & yaw()				{ return yaw_; }
+		float 	yaw() const 		{ return yaw_; }
+		float & pitch()				{ return pitch_; }
+		float 	pitch() const		{ return pitch_; }
 		float & fovy()				{ return fovy_; }
 		float   fovy() const		{ return fovy_; }
 		float & aspect()			{ return aspect_; }
@@ -144,14 +150,17 @@ namespace mygllib
 		
 		void setCamera()
 		{
+			cameraFront.x = cos(glm::radians(yaw_)) * cos(glm::radians(pitch_));
+			//cameraFront.y = sin(glm::radians(pitch_));
+			cameraFront.z = sin(glm::radians(yaw_)) * cos(glm::radians(pitch_));
+			cameraFront = glm::normalize(cameraFront);
+			cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
+			cameraUp = glm::normalize(glm::cross(cameraRight, cameraFront));
 			cameraTarget = cameraPos + cameraFront;
-			//cameraPos = (glm::vec3(camX, camY, camZ));
 		}
 
 		glm::vec3 cameraPos, cameraTarget, cameraDirection,
 		cameraUp, cameraRight, cameraFront;
-		glm::mat4 cameraView;
-
 
 	private:
 		float eyex_, eyey_, eyez_;			 //coordinates of eye
@@ -160,6 +169,7 @@ namespace mygllib
 		Projection type_;					 //ORTHOGONAL/PERSPECTIVE viewing
 		float fovy_, aspect_, zNear_, zFar_; //Params for perspective view
 		float speed_;
+		float yaw_, pitch_, roll_;
 	};
 
 	inline

@@ -12,5 +12,5 @@ void mygllib::Reshape::reshape(int w, int h)
 	mygllib::Camera * pcamera = mygllib::SingletonView::getInstance();
 	pcamera->aspect() = double(w) / h;
 	pcamera->set_projection();
-	pcamera->lookat();
+	pcamera->camlookat();
 }
