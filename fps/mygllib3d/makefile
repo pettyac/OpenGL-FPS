@@ -8,7 +8,7 @@ CXX 	= g++
 CXXFLAGS= -g -Wall
 LINK = g++
 LINKFLAGS = -lGL -lGLU -lglut -lGLEW -lglfw3
-OBJS = config.o reshape.o SingletonView.o Keyboard.o DisplayLists.o Camera.o Mouse.o
+OBJS = config.o reshape.o Keyboard.o DisplayLists.o Mouse.o Light.o Material.o 
 
 #------------------------------------------------------------------------------
 # Build all object code
@@ -21,9 +21,6 @@ all:	$(OBJS)
 #------------------------------------------------------------------------------
 config.o: config.h config.cpp
 	$(CXX) $(CXXFLAGS) config.cpp -c -o config.o
-	
-SingletonView.o: SingletonView.h SingletonView.cpp
-	$(CXX) $(CXXFLAGS) SingletonView.cpp -c -o Camera.o
 
 reshape.o: reshape.h reshape.cpp
 	$(CXX) $(CXXFLAGS) reshape.cpp -c -o reshape.o
@@ -37,6 +34,11 @@ DisplayLists.o: DisplayLists.h
 Mouse.o: Mouse.h Mouse.cpp
 	$(CXX) $(CXXFLAGS) Mouse.cpp -c -o Mouse.o
 
+Light.o: Light.h Light.cpp
+	$(CXX) $(CXXFLAGS) Light.cpp -c -o Light.o
+
+Material.o: Material.h Material.cpp
+	$(CXX) $(CXXFLAGS) Material.cpp -c -o Material.o
 
 #------------------------------------------------------------------------------
 # Utilities

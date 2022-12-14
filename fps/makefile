@@ -8,8 +8,9 @@ CXX 	= g++
 CXXFLAGS = -g -Wall
 LINK 	= g++
 LINKFLAGS = -lGL -lGLU -lglut -lGLEW -lglfw
-OBJS 	= mygllib3d/config.o mygllib3d/reshape.o mygllib3d/SingletonView.o \
-	  mygllib3d/Keyboard.o main.o
+OBJS 	= mygllib3d/config.o mygllib3d/reshape.o mygllib3d/Keyboard.o \
+		mygllib3d/Mouse.o main.o mygllib3d/Light.o mygllib3d/Material.o
+	
 EXE	= main.exe
 
 #------------------------------------------------------------------------------
@@ -30,7 +31,7 @@ main.o:	main.cpp
 clean: 
 	rm -f $(EXE) main.o
 c: 
-	rm -f $(EXE) main.o
+	rm -f $(EXE) main.o $(OBJS)
 run:
 	./$(EXE)
 r:

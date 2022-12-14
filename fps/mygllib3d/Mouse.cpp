@@ -8,7 +8,7 @@
 bool mygllib::Mouse::mouse_down_;
 int mygllib::Mouse::x_ = mygllib::WIN_W / 2;
 int mygllib::Mouse::y_ = mygllib::WIN_H / 2;
-float mygllib::Mouse::sensitivity = 0.5f;
+float mygllib::Mouse::sensitivity = 0.4f;
 bool firstMouse = true;
 
 
@@ -19,16 +19,16 @@ void mygllib::Mouse::mouse(int button, int state, int x, int y)
     mouse_down_ = (state == GLUT_DOWN);
     switch (button)
     {
-        case GLUT_LEFT_BUTTON: std::cout << "left" << std::endl; break;
-        case GLUT_MIDDLE_BUTTON: std::cout << "mid" << std::endl; break;
-        case GLUT_RIGHT_BUTTON: std::cout << "right" << std::endl; break;
+        case GLUT_LEFT_BUTTON: break;
+        case GLUT_MIDDLE_BUTTON: break;
+        case GLUT_RIGHT_BUTTON: break;
     }
     glutPostRedisplay();
 }
 
 void mygllib::Mouse::motion(int x, int y)
 {
-    mygllib::Camera & camera = *(mygllib::SingletonView::getInstance());
+    mygllib::Camera & camera = *(mygllib::Singleton<mygllib::Camera>::getInstance());
     
     x *= sensitivity;
     y *= sensitivity;
@@ -47,6 +47,8 @@ void mygllib::Mouse::motion(int x, int y)
 
 void mygllib::Mouse::passive_motion(int x, int y)
 {
+    mygllib::Camera & camera = *(mygllib::Singleton<mygllib::Camera>::getInstance());
+    
     if (firstMouse)
     {
         x_ = x;
@@ -58,14 +60,10 @@ void mygllib::Mouse::passive_motion(int x, int y)
     x_ = x;
     y_ = y;
 
-    mygllib::Camera & camera = *(mygllib::SingletonView::getInstance());
-    std::cout << "passive " << xoffset << ' ' << yoffset << std::endl;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
-    std::cout << "after " << xoffset << ' ' << yoffset << std::endl;
     camera.yaw() += xoffset;
     camera.pitch() += yoffset;
-    std::cout << "yaw pitch " << camera.yaw() << ' ' << camera.pitch() << std::endl;
     
     if (camera.pitch() > 89.0f) camera.pitch() = 89.0f;
     if (camera.pitch() < -89.0f) camera.pitch() = -89.0f;
@@ -80,5 +78,3 @@ void mygllib::Mouse::entry(int state)
 {
     glutPostRedisplay();
 }
-
-

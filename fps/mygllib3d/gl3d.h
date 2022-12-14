@@ -8,7 +8,10 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "reshape.h"
-#include "SingletonView.h"
+#include "Singleton.h"
+#include "Camera.h"
+#include "Light.h"
+#include "Material.h"
 
 namespace mygllib
 {
@@ -74,7 +77,7 @@ namespace mygllib
 					   GLfloat dx = 1.0f,
 					   GLfloat dz = 1.0f)
 	{
-		glColor3f(0.5, 0.5, 0.5);
+		glColor3f(0.0, 1.0, 0.5);
 		glBegin(GL_LINES);
 		for (float x = minx; x <= maxx; x += 1)
 		{

@@ -7,8 +7,6 @@
 #include <GL/freeglut.h>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
-#include <GLFW/glfw3.h>
-#include <GLFW/glfw3native.h>
 #include "config.h"
 
 namespace mygllib
@@ -53,6 +51,7 @@ namespace mygllib
 			cameraDirection = glm::normalize(cameraPos - cameraTarget);
 			cameraRight = glm::normalize(glm::cross(cameraUp, cameraDirection));
 			cameraFront = glm::vec3(0, 0, -1);	
+			worldUp = cameraUp;
 		}
 
 		float & eyex()				{ return eyex_; }
@@ -151,16 +150,17 @@ namespace mygllib
 		void setCamera()
 		{
 			cameraFront.x = cos(glm::radians(yaw_)) * cos(glm::radians(pitch_));
-			//cameraFront.y = sin(glm::radians(pitch_));
+			cameraFront.y = sin(glm::radians(pitch_));
 			cameraFront.z = sin(glm::radians(yaw_)) * cos(glm::radians(pitch_));
 			cameraFront = glm::normalize(cameraFront);
-			cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
+
+			cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));
 			cameraUp = glm::normalize(glm::cross(cameraRight, cameraFront));
 			cameraTarget = cameraPos + cameraFront;
 		}
 
 		glm::vec3 cameraPos, cameraTarget, cameraDirection,
-		cameraUp, cameraRight, cameraFront;
+		cameraUp, cameraRight, cameraFront, worldUp;
 
 	private:
 		float eyex_, eyey_, eyez_;			 //coordinates of eye
